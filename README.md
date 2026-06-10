@@ -12,15 +12,6 @@ Each run:
 5. Deletes exports older than the configured retention period.
 6. Writes the result to `logs/backup.log`.
 
-## Requirements
-
-- Windows
-- Python 3
-- XAMPP with MySQL or MariaDB
-- XAMPP MySQL must be running when a backup starts
-
-No external Python packages are required.
-
 ## Project Files
 
 - `backup.py` runs the backup.
@@ -119,6 +110,11 @@ Open Command Prompt and create a Windows Scheduled Task with:
 ```cmd
 schtasks /Create /TN "MySQL Auto Backup" /TR "python E:\simple-db-backup\backup.py" /SC WEEKLY /D MON,TUE,WED,THU,FRI /ST 18:10
 ```
+*Note: If the command running the script itself fails and/or fails to find it, you can alternatively run the command so it runs the manual-backup.bat executable.*
+
+```cmd
+schtasks /Create /TN "MySQL Auto Backup" /TR "\"D:\Backups\simple-db-backup\run-backup.bat\"" ^  /SC WEEKLY ^  /D MON,TUE,WED,THU,FRI ^  /ST 18:10 ^
+```
 
 Before running the command, replace:
 
@@ -134,35 +130,3 @@ schtasks /Create /TN "MySQL Auto Backup" /TR "python E:\simple-db-backup\backup.
 
 The computer must be on and XAMPP MySQL must be running when the task starts.
 
-## Test Automatic Backups
-
-Run the scheduled task immediately:
-
-```cmd
-schtasks /Run /TN "MySQL Auto Backup"
-```
-
-Wait for the backup to finish, then check:
-
-- A new `.sql.gz` file was created for each included database.
-- `logs/backup.log` ends with `Backup completed successfully.`
-
-You can also inspect the task in Windows Task Scheduler:
-
-1. Open Task Scheduler.
-2. Select **Task Scheduler Library**.
-3. Find **MySQL Auto Backup**.
-4. Check its **Last Run Time** and **Last Run Result**.
-
-## Backup Output
-
-Backups are grouped by date:
-
-```text
-backups/
-`-- 2026-06-06/
-    |-- database_one_2026-06-06_18-10-00.sql.gz
-    `-- database_two_2026-06-06_18-10-01.sql.gz
-```
-
-These are database exports, not copies of XAMPP's live database folders.
