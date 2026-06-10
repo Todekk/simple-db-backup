@@ -113,7 +113,7 @@ schtasks /Create /TN "MySQL Auto Backup" /TR "python E:\simple-db-backup\backup.
 *Note: If the command running the script itself fails and/or fails to find it, you can alternatively run the command so it runs the manual-backup.bat executable.*
 
 ```cmd
-schtasks /Create /TN "MySQL Auto Backup" /TR "\"D:\Backups\simple-db-backup\run-backup.bat\"" ^  /SC WEEKLY ^  /D MON,TUE,WED,THU,FRI ^  /ST 18:10 ^
+schtasks /Create /TN "MySQL Auto Backup" /TR "\"E:\simple-db-backup\run-backup.bat\"" ^  /SC WEEKLY ^  /D MON,TUE,WED,THU,FRI ^  /ST 18:10 ^
 ```
 
 Before running the command, replace:
